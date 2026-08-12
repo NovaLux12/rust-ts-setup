@@ -18,6 +18,6 @@ jobs:
           rust-channel: 'stable'
 ```
 
-## Jobs it replaces
+## Replaces
 
-- PresenceJam-Desktop CI: `Frontend (npm build + ts-rs codegen)` + `Rust (cargo check)` + `Rust clippy`
+Replaces repetitive per-repo setup steps (Node/Rust toolchain + cache + the four standard commands) with one shared action. Update the action once to update every consuming repo.
