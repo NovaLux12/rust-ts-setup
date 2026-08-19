@@ -9,9 +9,9 @@ on:
 jobs:
   actionlint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: actionlint (validate composite action)
-        uses: docker://docker.io/rhysd/actionlint:latest
-        with:
-          args: -color action/action.yml
+      - name: actionlint (validate workflows + composite action)
+        uses: raven-actions/actionlint@v2
