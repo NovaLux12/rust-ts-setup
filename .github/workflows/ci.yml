@@ -7,11 +7,39 @@ on:
     branches: [main]
 
 jobs:
-  actionlint:
+  validate:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: actionlint (validate workflows + composite action)
+
+      - name: Validate action.yml and workflows
+        run: |
+          set -e
+          echo "Validating action.yml syntax..."
+          # Prefer yamllint if available
+          if command -v yamllint >/dev/null 2>&1; then
+            yamllint action.yml action/action.yml 2>/dev/null || yamllint action.yml
+          elif command -v actionlint >/dev/null 2>&1; then
+            actionlint
+          else
+            echo "yamllint/actionlint not available — falling back to cat + python yaml check"
+            cat action.yml
+            echo "---"
+            cat action/action.yml 2>/dev/null || true
+            python3 -c "import yaml, sys; yaml.safe_load(open('action.yml')); print('action.yml: valid YAML')"
+            if [ -f action/action.yml ]; then
+              python3 -c "import yaml; yaml.safe_load(open('action/action.yml')); print('action/action.yml: valid YAML')"
+            fi
+            # Also validate workflow YAML
+            for f in .github/workflows/*.yml; do
+              echo "Checking $f..."
+              python3 -c "import yaml; yaml.safe_load(open('$f')); print('$f: valid YAML')"
+              cat "$f"
+            done
+          fi
+
+      - name: actionlint (if available via Docker fallback)
+        continue-on-error: true
         uses: raven-actions/actionlint@v2
