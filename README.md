@@ -4,6 +4,8 @@
 
 Composite GitHub Action for Rust + TypeScript monorepos. Sets up Node.js, Rust, caching, then runs `npm ci`, `cargo check`, `npm run build`, and conditional `npm run codegen`.
 
+> **Note on versions:** the only published tag so far is `v0.1.0`, so the examples below pin to it. There is no `v1` tag yet — `@v1` will not resolve. To track the latest work, use `@main` instead.
+
 ## Usage
 
 ```yaml
@@ -12,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: NovaLux12/rust-ts-setup@v1
+      - uses: NovaLux12/rust-ts-setup@v0.1.0
         with:
           node-version: '20'
           rust-channel: 'stable'
@@ -21,7 +23,7 @@ jobs:
 With custom versions and cache prefix:
 
 ```yaml
-      - uses: NovaLux12/rust-ts-setup@v1
+      - uses: NovaLux12/rust-ts-setup@v0.1.0
         with:
           node-version: '22'
           rust-channel: '1.82'
@@ -31,7 +33,7 @@ With custom versions and cache prefix:
 Pin to a release tag or commit:
 
 ```yaml
-      - uses: NovaLux12/rust-ts-setup@v1.2.3
+      - uses: NovaLux12/rust-ts-setup@v0.1.0
       - uses: NovaLux12/rust-ts-setup@a1b2c3d  # commit SHA
 ```
 
