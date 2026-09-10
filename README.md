@@ -49,7 +49,7 @@ All inputs map directly to `action.yml`. `cache-key` is prepended to the `Cargo.
 
 ### What it does
 
-1. `actions/setup-node@v4` with npm cache (`**/package-lock.json`) at `node-version`
+1. `actions/setup-node@v7` with npm cache (`**/package-lock.json`) at `node-version`
 2. `dtolnay/rust-toolchain@stable` at `rust-channel`
 3. `Swatinem/rust-cache@v2` keyed on `cache-key` + `Cargo.lock` hash
 4. `npm ci`
@@ -61,13 +61,12 @@ All inputs map directly to `action.yml`. `cache-key` is prepended to the `Cargo.
 
 ```bash
 # validate YAML
-yamllint -d "{extends: relaxed, rules: {line-length: {max: 120}, document-start: disable}}" action.yml action/action.yml
+yamllint -d "{extends: relaxed, rules: {line-length: {max: 120}, document-start: disable}}" action.yml
 actionlint
 
 # fallback without yamllint/actionlint
 python3 -c "import yaml; yaml.safe_load(open('action.yml'))"
 cat action.yml
-python3 -c "import yaml; yaml.safe_load(open('action/action.yml'))"
 ```
 
 CI validates `action.yml` and workflows on every push/PR via `yamllint`/`actionlint` (see `.github/workflows/ci.yml`).
