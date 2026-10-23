@@ -69,7 +69,7 @@ python3 -c "import yaml; yaml.safe_load(open('action.yml'))"
 cat action.yml
 ```
 
-CI validates `action.yml` and workflows on every push/PR via `yamllint`/`actionlint` (see `.github/workflows/ci.yml`).
+CI lints `action.yml` with `yamllint` on every push to `main` and every PR against `main`, and runs `actionlint` over the workflow files in a separate step marked `continue-on-error` — so a workflow lint finding is reported but does not fail the build (see `.github/workflows/ci.yml`).
 
 ## Release
 
